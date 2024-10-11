@@ -98,9 +98,9 @@ void reveal_image(FILE *file, BMP_Header *bmpHeader, DIB_Header *dibHeader) {
             fread(&pixel, sizeof(Pixel), 1, file);
 
             //swap 4 MSB and LSB of each color channel
-            pixel.blue = ((pixel.blue & 0xF) >> 4) | ((pixel.blue & 0x0F) << 4);
-            pixel.green = ((pixel.green & 0xF) >> 4) | ((pixel.green & 0x0F) << 4);
-            pixel.red = ((pixel.red & 0xF) >> 4) | ((pixel.red & 0x0F) << 4);
+            pixel.blue = ((pixel.blue & 0x0F) >> 4) | ((pixel.blue & 0x0F) << 4);
+            pixel.green = ((pixel.green & 0x0F) >> 4) | ((pixel.green & 0x0F) << 4);
+            pixel.red = ((pixel.red & 0x0F) >> 4) | ((pixel.red & 0x0F) << 4);
 
             fseek(file, -(int)sizeof(Pixel), SEEK_CUR);
             fwrite(&pixel, sizeof(Pixel), 1, file);
