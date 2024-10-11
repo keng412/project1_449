@@ -46,7 +46,6 @@ int read_headers(FILE *file, BMP_Header *bmpHeader, DIB_Header *dibHeader) {
     //check for 'BM'
     if(bmpHeader->format_id[0] != 'B' || bmpHeader->format_id[1] != 'M') {
         printf("ERROR: The format is not supported.\n");
-        fclose(file);
         return 1;
     }
 
@@ -56,7 +55,6 @@ int read_headers(FILE *file, BMP_Header *bmpHeader, DIB_Header *dibHeader) {
     //check is DIB size = 40 and if bpp = 24
     if(dibHeader->header_size != 40 ||dibHeader->bits_per_pixel != 24 ) {
         printf("ERROR: The format is not supported.\n");
-        fclose(file);
         return 1;
     }
 
@@ -135,9 +133,9 @@ void hide_image(FILE *file1, FILE *file2, BMP_Header *bmpHeader1, BMP_Header *bm
             */
 
             //replace 4 LSB of filename1 with 4 MSB of filename2
-            pixel1.blue = (pixel1.blue & 0xF0) | ((pixel2.blue & 0xF0) >> 4);
-            pixel1.green = (pixel1.green & 0xF0) | ((pixel2.green & 0xF0) >> 4);
-            pixel1.red = (pixel1.red & 0xF0) | ((pixel2.red & 0xF0) >> 4);
+            pixel1.blue = ((pixel1.blue & 0xF0) >> 4) | ((pixel2.blue & 0xF0) << 4);
+            pixel1.green = ((pixel1.green & 0xF0) >> 4) | ((pixel2.green & 0xF0) << 4);
+            pixel1.red = ((pixel1.red & 0xF0) >> 4) | ((pixel2.red & 0xF0) << 4);
 
             /* debug print post mod
             printf("After modification - Pixel1 (B: %u, G: %u, R: %u)\n", pixel1.blue, pixel1.green, pixel1.red);
@@ -229,7 +227,7 @@ int main(int argc, char *argv[]) {
         fclose(file2);
 
     } else {
-        printf("ERROR: Unknown command.\n");
+        printf("ERROR: Missing Arguments.\n");
         fclose(file1);
         return 1;
     }
