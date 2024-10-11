@@ -133,9 +133,9 @@ void hide_image(FILE *file1, FILE *file2, BMP_Header *bmpHeader1, BMP_Header *bm
             */
 
             //replace 4 LSB of filename1 with 4 MSB of filename2
-            pixel1.blue = (pixel1.blue & 0xF0) | ((pixel2.blue & 0xF0) >> 4);
-            pixel1.green = (pixel1.green & 0xF0) | ((pixel2.green & 0xF0) >> 4);
-            pixel1.red = (pixel1.red & 0xF0) | ((pixel2.red & 0xF0) >> 4);
+            pixel1.blue = (pixel1.blue & 0xF0) | ((pixel2.blue >> 4) & 0x0F);
+            pixel1.green = (pixel1.green & 0xF0) | ((pixel2.green >> 4) & 0x0F);
+            pixel1.red = (pixel1.red & 0xF0) | ((pixel2.red >> 4) & 0x0F);
 
             /* debug print post mod
             printf("After modification - Pixel1 (B: %u, G: %u, R: %u)\n", pixel1.blue, pixel1.green, pixel1.red);
