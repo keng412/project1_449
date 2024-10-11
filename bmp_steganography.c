@@ -98,9 +98,9 @@ void reveal_image(FILE *file, BMP_Header *bmpHeader, DIB_Header *dibHeader) {
             fread(&pixel, sizeof(Pixel), 1, file);
 
             //swap 4 MSB and LSB of each color channel
-            pixel.blue = ((pixel.blue & 0xF) >> 4 | ((pixel.blue & 0x0F) << 4));
-            pixel.green = ((pixel.green & 0xF) >> 4 | ((pixel.green & 0x0F) << 4));
-            pixel.red = ((pixel.red & 0xF) >> 4 | ((pixel.red & 0x0F) << 4));
+            pixel.blue = ((pixel.blue & 0xF) >> 4) | ((pixel.blue & 0x0F) << 4);
+            pixel.green = ((pixel.green & 0xF) >> 4) | ((pixel.green & 0x0F) << 4);
+            pixel.red = ((pixel.red & 0xF) >> 4) | ((pixel.red & 0x0F) << 4);
 
             fseek(file, -(int)sizeof(Pixel), SEEK_CUR);
             fwrite(&pixel, sizeof(Pixel), 1, file);
@@ -133,9 +133,9 @@ void hide_image(FILE *file1, FILE *file2, BMP_Header *bmpHeader1, BMP_Header *bm
             */
 
             //replace 4 LSB of filename1 with 4 MSB of filename2
-            pixel1.blue = (pixel1.blue & 0xF0) | ((pixel2.blue >> 4) & 0x0F);
-            pixel1.green = (pixel1.green & 0xF0) | ((pixel2.green >> 4) & 0x0F);
-            pixel1.red = (pixel1.red & 0xF0) | ((pixel2.red >> 4) & 0x0F);
+            pixel1.blue = (pixel1.blue & 0xF0) | ((pixel2.blue & 0xF0) >> 4);
+            pixel1.green = (pixel1.green & 0xF0) | ((pixel2.green & 0xF0) >> 4);
+            pixel1.red = (pixel1.red & 0xF0) | ((pixel2.red & 0xF0) >> 4);
 
             /* debug print post mod
             printf("After modification - Pixel1 (B: %u, G: %u, R: %u)\n", pixel1.blue, pixel1.green, pixel1.red);
